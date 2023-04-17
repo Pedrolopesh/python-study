@@ -8,3 +8,9 @@
 
 <script setup lang="ts">
 </script>
+
+<style>
+* {
+  font-family: 'Poppins', sans-serif;
+}
+</style>

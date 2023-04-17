@@ -1,5 +1,5 @@
 <template>
-    <v-table>
+    <v-table class="container-table">
       <thead>
         <tr>
           <th class="text-left">
@@ -17,17 +17,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in desserts" :key="index">
-          <td>{{ item.title }}</td>
-          <td>{{ item.genre }}</td>
-          <td>{{ item.played }}</td>
-          <td>
+        <tr v-for="(item, index) in gameData" :key="index">
+          <td v-if="item.title">{{ item.title }}</td>
+          <td v-if="item.genre">{{ item.genre }}</td>
+          <td v-if="item.played !== null">{{ handlePlayedGame(item.played) }}</td>
+          <td v-if="item.title && item.genre && item.played !== null">
             <div class="d-flex">
-                <v-btn variant="outlined">
-                    Update
+                <v-btn class="mr-2" variant="outlined">
+                  Update
                 </v-btn>
                 <v-btn variant="outlined" color="error">
-                    Delete
+                  Delete
                 </v-btn>
             </div>
           </td>
@@ -36,63 +36,27 @@
     </v-table>
   </template>
 
+<style>
+.container-table {
+  display: block;
+  max-width: 100%;
+  width: 55%;
+  margin: 20px auto;
+}
+</style>
 
 <script lang="ts">
+
+  interface GameData {
+    title: string;
+    genre: string;
+    played: boolean;
+  }
+
   export default {
     data () {
       return {
-        desserts: [
-          {
-            title: 'Frozen Yogurt',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Ice cream sandwich',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Eclair',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Cupcake',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Gingerbread',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Jelly bean',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Lollipop',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Honeycomb',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'Donut',
-            genre: 'Lorem',
-            played: true,
-          },
-          {
-            title: 'KitKat',
-            genre: 'Lorem',
-            played: true,
-          },
-        ],
+        gameData: [] as GameData[]
       }
     },
     created() {
@@ -101,11 +65,18 @@
     methods: {
         async getTableData() {
             try {
-                const resp = await this.axios.get('http://127.0.0.1:5000/api/shark')
-                console.log('resp? ', resp)
+                const resp = await this.axios.get('http://127.0.0.1:5000/api/games')
+                console.log('resp table? ', resp)
+                if (resp?.data?.games) {
+                    this.gameData = resp.data.games
+                }
             } catch (err) {
                 console.log(err);
             }	
+        },
+        handlePlayedGame(playedParam: boolean) {
+          if (playedParam) return 'Yes'
+          else return 'No'
         }
     }
   }

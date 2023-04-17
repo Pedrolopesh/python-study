@@ -1,11 +1,12 @@
 <template>
-    <div class="text-center">
+    <div class="text-center container-add-game">
       <v-dialog
         v-model="dialog"
-        width="auto"
+        width="500px"
       >
         <template v-slot:activator="{ props }">
           <v-btn
+            class="d-block"
             color="primary"
             v-bind="props"
           >
@@ -13,8 +14,8 @@
           </v-btn>
         </template>
   
-        <v-card>
-        
+        <v-card class="container-card-add-game">
+
             <v-toolbar
                 color="primary"
                 title="Add a new game"
@@ -27,9 +28,9 @@
                 <v-checkbox label="Checkbox" v-model="gameForm.played"></v-checkbox>
             </div>
           
-          <v-card-actions>
-            <v-btn color="primary" block @click="sendForm()">Submit</v-btn> 
-            <v-btn color="error" block @click="dialog = false">Reset</v-btn>
+          <v-card-actions class="container-add-game-actions">
+            <v-btn class="d-block" variant="outlined" color="primary" block @click="sendForm()">Submit</v-btn> 
+            <v-btn class="d-block" variant="outlined" color="error" block @click="dialog = false">Reset</v-btn>
           </v-card-actions>
         
         </v-card>
@@ -37,6 +38,25 @@
     </div>
   </template>
 
+<style>
+.container-add-game {
+  display: block;
+  max-width: 100%;
+  width: 55%;
+  margin: 20px auto;
+}
+
+.container-card-add-game {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  /* margin: 20px auto; */
+}
+
+.container-add-game-actions {
+  max-width: 25%;
+}
+</style>
 
 <script lang="ts">
   export default {
